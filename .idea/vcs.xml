@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Java-todo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Java-todo/gs-accessing-data-mysql" vcs="Git" />
   </component>
 </project>
