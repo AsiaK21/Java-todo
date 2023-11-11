@@ -11,20 +11,20 @@
     <div class="row mt-5">
         <div class="col-2">
             <p><a class="btn btn-outline-success" href="/">
-                <i class="bi bi-arrow-left-square-fill"></i> Back</a>
+                <i class="bi bi-arrow-left-square-fill"></i> Powrót</a>
             </p>
         </div>
         <div class="col-6">
-            <h2>Edit Todo Item</h2>
+            <h2>Edytuj zadanie</h2>
             <form class="row g-3" action="#" th:action="@{/todo/{id}(id=${todo.id})}" th:object="${todo}" method="POST">
                 <div class="form-group">
                     <div class="col-6">
-                        <label for="description">Description</label>
+                        <label for="description">Opis</label>
                         <input class="form-control"
                                type="text"
                                th:field="*{description}"
                                id="description"
-                               placeholder="Description"
+                               placeholder="Opis zadania"
                         >
                     </div>
                     <div class="col-6 form-check">
@@ -34,15 +34,16 @@
                                th:field="*{isComplete}"
                                th:checked="${isComplete} == true">
                         <label class="form-check-label" for="inputIsComplete">
-                            Completed?
+                            Skończone?
                         </label>
                     </div>
 
                     <input type="hidden" th:field="*{createdAt}" />
                     <input type="hidden" th:field="*{updatedAt}" />
+                    <input type="date" th:field="*{tillWhen}" />
 
                     <button type="submit" class="btn btn-outline-success">
-                        <i class="bi bi-plus-square-fill"></i> Update
+                        <i class="bi bi-plus-square-fill"></i> Aktualizacja
                     </button>
 
                 </div>

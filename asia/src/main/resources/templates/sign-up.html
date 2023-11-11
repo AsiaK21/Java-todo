@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container">
+  <h1>Zarejestruj się</h1>
+  <form class="row g-3" action="#" th:action="@{signup}" th:object="${register}" method="POST">
+    <div class="form-group">
+      <div class="col-6">
+        <label>Imię: </label>
+        <input class="form-control"
+               type="text"
+               th:field="*{firstName}"
+               id="firstName"
+               placeholder="Imię użytkownika"
+        >
+      </div>
+      <div class="col-6">
+        <label>Nazwisko: </label>
+        <input class="form-control"
+               type="text"
+               th:field="*{lastName}"
+               id="plastName"
+               placeholder="Nazwisko użytkownika"
+        >
+      </div>
+      <div class="col-6">
+        <label>Nazwa użytkownika: </label>
+        <input class="form-control"
+               type="text"
+               th:field="*{username}"
+               id="username"
+               placeholder="Nazwa użytkownika"
+        >
+      </div>
+      <div class="col-6">
+        <label>E-mail: </label>
+        <input class="form-control"
+               type="email"
+               th:field="*{email}"
+               id="email"
+               placeholder="E-mail użytkownika"
+        >
+      </div>
+      <div class="col-6">
+        <label>Hasło: </label>
+        <input class="form-control"
+               type="text"
+               th:field="*{password}"
+               id="password"
+               placeholder="Hasło użytkownika"
+        >
+      </div>
+<!--      <div class="col-6">-->
+<!--        <label>Powtórz hasło: </label>-->
+<!--        <input class="form-control"-->
+<!--               type="text"-->
+<!--               th:field="*{password}"-->
+<!--               id="password2"-->
+<!--               placeholder="Powtórzone hasło użytkownika"-->
+<!--        >-->
+      </div>
+      <button type="submit" class="btn btn-outline-success">
+        <i class="bi bi-plus-square-fill"></i> Zarejestruj
+      </button>
+    </div>
+  </form>
+</div>
+<script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+</body>
+</html>

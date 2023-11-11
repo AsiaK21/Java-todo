@@ -8,18 +8,18 @@
 </head>
 <body>
 <div class="container">
-    <h1>Todo application in Java (SpringBoo)</h1>
+    <h1>Aplikacja Todo w Javie (SpringBoot)</h1>
     <hr />
-
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>Actions</th>
+            <th>Zadanie</th>
             <th>Id</th>
-            <th>Description</th>
-            <th>Is Complete</th>
-            <th>Created At</th>
-            <th>Updated At</th>
+            <th>Opis</th>
+            <th>Status zadania</th>
+            <th>Od kiedy</th>
+            <th>Kiedy skończone</th>
+            <th>Do kiedy</th>
         </tr>
         </thead>
         <tbody>
@@ -27,25 +27,25 @@
             <td>
                 <div class="btn btn-group-sm" role="group">
                     <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">
-                        <i class="bi bi-pencil-fill"></i> Edit</a>
+                        <i class="bi bi-pencil-fill"></i> Edytuj</a>
                     <a class="btn btn-danger" th:href="@{/delete/{id}(id=${item.id})}">
-                        <i class="bi bi-trash-fill"></i> Delete</a>
+                        <i class="bi bi-trash-fill"></i> Usuń</a>
                 </div>
             </td>
             <td th:text="${item.id}"></td>
             <td th:text="${item.description}"></td>
             <td>
-                <span th:if="${item.isComplete} == true" th:text="Yes" />
-                <span th:unless="${item.isComplete} == true" th:text="No" />
+                <span th:if="${item.isComplete} == true" th:text="Dokończone" />
+                <span th:unless="${item.isComplete} == true" th:text="Niedokończone" />
             </td>
             <td th:text="${item.createdAt}"></td>
             <td th:text="${item.updatedAt}"></td>
+            <td th:text="${item.tillWhen}"></td>
         </tr>
         </tbody>
     </table>
-
     <p><a class="btn btn-outline-success" href="/create-todo">
-        <i class="bi bi-plus-square-fill"></i> Create a Todo</a>
+        <i class="bi bi-plus-square-fill"></i> Stwórz nowe zadanie</a>
     </p>
 </div>
 <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>

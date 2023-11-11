@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Zaloguj się</h1>
+    <form class="row g-3" action="#" th:action="@{signin}" th:object="${login}" method="POST">
+        <div class="form-group">
+            <div class="col-6">
+                <label>Nazwa użytkownika: </label>
+                <input class="form-control"
+                       type="text"
+                       th:field="*{username}"
+                       id="username"
+                       placeholder="Nazwa użytkownika"
+                >
+            </div>
+            <div class="col-6">
+                <label>Hasło: </label>
+                <input class="form-control"
+                       type="text"
+                       th:field="*{password}"
+                       id="password"
+                       placeholder="Hasło użytkownika"
+                >
+            </div>
+            <button type="submit" class="btn btn-outline-success">
+                <i class="bi bi-plus-square-fill"></i> Zaloguj
+            </button>
+        </div>
+    </form>
+</div>
+<script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+</body>
+</html>

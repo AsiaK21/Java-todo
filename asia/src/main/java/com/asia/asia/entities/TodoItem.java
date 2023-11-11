@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Date;
 
+// TODO: Dodać relacje do Usera (Pewnie one to Many )
 @Getter
 @Setter
 @Entity
@@ -24,9 +26,11 @@ public class TodoItem implements Serializable {
 
     private Instant updatedAt;
 
+    private Date tillWhen;
+
     @Override
     public String toString(){
-        return String.format("TodoItems{id=%d, description='%s', isComplete='%s',createdAt='%s', updatedAt='%s'} ",
-                id, description, isComplete, createdAt,updatedAt);
+        return String.format("TodoItems{id=%d, description='%s', isComplete='%s',createdAt='%s', updatedAt='%s', tillWhen='%s'} ",
+                id, description, isComplete, createdAt,updatedAt, tillWhen);
     }
 }
