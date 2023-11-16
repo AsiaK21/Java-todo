@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" />
+    <script th:inline="javascript">
+        var formatDate = function(dateString) {
+            return new Date(dateString).toLocaleString('pl-PL', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -37,10 +42,9 @@
                 <span th:if="${item.isComplete} == true" th:text="Dokończone" />
                 <span th:unless="${item.isComplete} == true" th:text="Niedokończone" />
             </td>
-            <td th:text="${item.createdAt}"></td>
-            <td th:text="${item.updatedAt}"></td>
-            <td th:text="${item.tillWhen}"></td>
-
+            <td th:text="${item.formattedCreatedAt}"></td>
+            <td th:text="${item.formattedUpdatedAt}"></td>
+            <td th:text="${item.formattedTillWhen}"></td>
         </tr>
         </tbody>
     </table>

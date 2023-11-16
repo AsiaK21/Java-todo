@@ -1,6 +1,7 @@
 package com.asia.asia.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -16,6 +17,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -90,6 +92,21 @@ public class TodoItem implements Serializable {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    @JsonIgnore
+    public String getFormattedCreatedAt() {
+        return createdAt != null ? createdAt.format(formatter) : null;
+    }
+    @JsonIgnore
+    public String getFormattedUpdatedAt() {
+        return updatedAt != null ? updatedAt.format(formatter) : null;
+    }
+    @JsonIgnore
+    public String getFormattedTillWhen() {
+        return tillWhen != null ? tillWhen.format(formatter) : null;
     }
 
 }
