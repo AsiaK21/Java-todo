@@ -1,5 +1,5 @@
 package com.asia.asia.config;
-
+import jakarta.servlet.http.Cookie;
 import com.asia.asia.services.JwtService;
 import com.asia.asia.services.UserService;
 import jakarta.servlet.FilterChain;
@@ -28,18 +28,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        // TODO: Przerobić żeby token pobierany był z cookie zamiast z header
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
-        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, "Bearer ")) {
+        Cookie[] cookies = request.getCookies();
+        String jwt = null;
+        String userEmail = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("yourJwtCookieName".equals(cookie.getName())) {
+                    jwt = cookie.getValue();
+                    userEmail = jwtService.extractUserName(jwt);
+                    break;
+                }
+            }
+        }
+        if (StringUtils.isEmpty(jwt) || StringUtils.isEmpty(userEmail)) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUserName(jwt);
-        if (StringUtils.isNotEmpty(userEmail)
-                && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.userDetailsService()
                     .loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {

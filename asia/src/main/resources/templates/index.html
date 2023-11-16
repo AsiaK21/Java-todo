@@ -14,7 +14,6 @@
         <thead>
         <tr>
             <th>Zadanie</th>
-            <th>Id</th>
             <th>Opis</th>
             <th>Status zadania</th>
             <th>Od kiedy</th>
@@ -32,7 +31,7 @@
                         <i class="bi bi-trash-fill"></i> Usuń</a>
                 </div>
             </td>
-            <td th:text="${item.id}"></td>
+<!--            <td th:text="${item.id}"></td>-->
             <td th:text="${item.description}"></td>
             <td>
                 <span th:if="${item.isComplete} == true" th:text="Dokończone" />
@@ -41,11 +40,18 @@
             <td th:text="${item.createdAt}"></td>
             <td th:text="${item.updatedAt}"></td>
             <td th:text="${item.tillWhen}"></td>
+
         </tr>
         </tbody>
     </table>
     <p><a class="btn btn-outline-success" href="/create-todo">
         <i class="bi bi-plus-square-fill"></i> Stwórz nowe zadanie</a>
+    <a class="btn btn-outline-info" th:href="@{/export?format=xml}">
+        <i class="bi bi-file-earmark-code"></i> Eksportuj do XML
+    </a>
+    <a class="btn btn-outline-warning" th:href="@{/export?format=json}">
+        <i class="bi bi-file-earmark-text"></i> Eksportuj do JSON
+    </a>
     </p>
 </div>
 <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>

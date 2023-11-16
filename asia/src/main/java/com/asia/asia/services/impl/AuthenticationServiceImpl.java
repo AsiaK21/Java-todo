@@ -21,6 +21,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName()).username(request.getUsername())
@@ -34,11 +35,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAuthenticationResponse signin(SignInRequest request) {
         var user = userRepository.findByUsername(request.getUsername());
-        //TODO:
         if (user.isPresent() && passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
             var jwt = jwtService.generateToken(user.get());
             return JwtAuthenticationResponse.builder().token(jwt).build();
         }
         return new JwtAuthenticationResponse();
+    }
+    public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 }
