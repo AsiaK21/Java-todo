@@ -5,14 +5,10 @@ import com.asia.asia.entities.User;
 import com.asia.asia.services.JwtService;
 import com.asia.asia.services.TodoItemService;
 import com.asia.asia.services.UserService;
-import com.asia.asia.services.impl.JwtServiceImpl;
 import jakarta.validation.Valid;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,8 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
 
-@Getter
-@Setter
+@AllArgsConstructor
 @Controller
 public class TodoFormController {
 
@@ -43,10 +38,11 @@ public class TodoFormController {
     public String createTodoItem(@Valid TodoItem todoItem, BindingResult result, Model model, Authentication authentication) {
         Long userId = jwtService.extractLoggedInUserId();
         Optional<User> loggedUser = userService.getUserById(userId);
-        if (loggedUser.isPresent()){
+        if (loggedUser.isPresent()) {
             System.out.println(loggedUser.get().toString());
             TodoItem item = new TodoItem();
             item.setDescription(todoItem.getDescription());
+            item.setPriority(todoItem.getPriority());
             item.setIsComplete(todoItem.getIsComplete());
             item.setTillWhen(todoItem.getTillWhen());
             item.setUser(loggedUser.get());
@@ -87,7 +83,7 @@ public class TodoFormController {
                 model.addAttribute("todo", todoItem);
                 return "edit-todo-item";
             } else {
-                return "redirect:/user-todos";
+                return "redirect:/";
             }
         } else {
             return "redirect:/";
@@ -101,6 +97,7 @@ public class TodoFormController {
             TodoItem existingTodoItem = optionalTodoItem.get();
             Long loggedInUserId = jwtService.extractLoggedInUserId();
             if (loggedInUserId.equals(existingTodoItem.getUser().getId())) {
+                existingTodoItem.setPriority(todoItem.getPriority());
                 existingTodoItem.setIsComplete(todoItem.getIsComplete());
                 existingTodoItem.setDescription(todoItem.getDescription());
                 todoItemService.save(existingTodoItem);
@@ -113,6 +110,4 @@ public class TodoFormController {
             return "redirect:/";
         }
     }
-
-
 }

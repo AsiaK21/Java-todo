@@ -1,4 +1,5 @@
 package com.asia.asia.config;
+
 import jakarta.servlet.http.Cookie;
 import com.asia.asia.services.JwtService;
 import com.asia.asia.services.UserService;
@@ -24,6 +25,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserService userService;
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)

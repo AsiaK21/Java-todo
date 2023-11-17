@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.Optional;
 
 public interface UserService {
+
     UserDetailsService userDetailsService();
 
     Optional<User> getUserById(Long id);
-    void assignAdminRole(String username);
 }

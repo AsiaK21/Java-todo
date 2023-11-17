@@ -1,6 +1,5 @@
 package com.asia.asia.services.impl;
 
-import com.asia.asia.entities.Role;
 import com.asia.asia.entities.User;
 import com.asia.asia.repositories.UserRepository;
 import com.asia.asia.services.UserService;
@@ -16,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+
     @Override
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
@@ -27,15 +27,8 @@ public class UserServiceImpl implements UserService {
         };
     }
 
-    public Optional<User> getUserById(Long id){
+    public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
-    public void assignAdminRole(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found: " + username));
-
-        user.setRole(Role.ADMIN);
-        userRepository.save(user);
-    }
 }

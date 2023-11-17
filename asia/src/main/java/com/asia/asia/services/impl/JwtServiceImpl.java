@@ -1,5 +1,6 @@
 package com.asia.asia.services.impl;
 
+import com.asia.asia.entities.Role;
 import com.asia.asia.entities.User;
 import com.asia.asia.services.JwtService;
 import io.jsonwebtoken.Claims;
@@ -35,6 +36,7 @@ public class JwtServiceImpl implements JwtService {
         User user = (User) userDetails;
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId());
+        claims.put("roles", user.getRole().toString());
         return generateToken(claims, userDetails);
     }
 
@@ -68,6 +70,15 @@ public class JwtServiceImpl implements JwtService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof User loggedInUser) {
             return loggedInUser.getId();
+        }
+        return null;
+    }
+
+    @Override
+    public Role extractLoggedInUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof User loggedInUser) {
+            return loggedInUser.getRole();
         }
         return null;
     }

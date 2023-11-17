@@ -1,9 +1,10 @@
 package com.asia.asia.controllers;
 
+import com.asia.asia.entities.Priority;
+import com.asia.asia.entities.Role;
 import com.asia.asia.entities.TodoItem;
+import com.asia.asia.services.JwtService;
 import com.asia.asia.services.TodoItemService;
-import com.asia.asia.services.impl.JwtServiceImpl;
-import com.asia.asia.services.impl.TodoItemServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,22 @@ public class HomeController {
     @Autowired
     private TodoItemService todoItemService;
     @Autowired
-    private JwtServiceImpl jwtService;
+    private JwtService jwtService;
 
     @GetMapping("/")
     public ModelAndView index(RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView("index");
         Long userId = jwtService.extractLoggedInUserId();
-        System.out.println(userId);
+        Role userRole = jwtService.extractLoggedInUserRole();
+        modelAndView.addObject("isAdmin", userRole.equals(Role.ADMIN));
         modelAndView.addObject("todoItems", todoItemService.getAllFromUser(userId));
+        return modelAndView;
+    }
+
+    @GetMapping("/admin")
+    public ModelAndView indexAdmin(RedirectAttributes redirectAttributes) {
+        ModelAndView modelAndView = new ModelAndView("index-admin");
+        modelAndView.addObject("todoItems", todoItemService.getAll());
         return modelAndView;
     }
 
@@ -43,7 +52,6 @@ public class HomeController {
         List<TodoItem> todoItems = (List<TodoItem>) todoItemService.getAllFromUser(userId);
 
         if ("xml".equalsIgnoreCase(format)) {
-            // Export as XML
             String xmlData = todoItemService.exportToXml(todoItems);
             return ResponseEntity
                     .ok()
@@ -51,7 +59,6 @@ public class HomeController {
                     .contentType(MediaType.APPLICATION_XML)
                     .body(xmlData);
         } else {
-            // Default to JSON export
             String jsonData = todoItemService.exportToJson(todoItems);
             return ResponseEntity
                     .ok()
@@ -60,5 +67,45 @@ public class HomeController {
                     .body(jsonData);
         }
     }
-}
 
+    @GetMapping("/exportHigh")
+    @ResponseBody
+    public ResponseEntity<String> exportTodoHigh(
+            RedirectAttributes redirectAttributes) {
+
+        Long userId = jwtService.extractLoggedInUserId();
+        Iterable<TodoItem> todoItems = todoItemService.findByPriority(Priority.HIGH, userId);
+
+        String xmlData = todoItemService.exportToXml((List<TodoItem>) todoItems);
+        return ResponseEntity
+                .ok()
+                .header("Content-Disposition", "attachment; filename=todoHigh-export.xml")
+                .contentType(MediaType.APPLICATION_XML)
+                .body(xmlData);
+    }
+
+    @GetMapping("/admin/export")
+    @ResponseBody
+    public ResponseEntity<String> exportTodoAdmin(
+            @RequestParam(name = "format", defaultValue = "json") String format,
+            RedirectAttributes redirectAttributes) {
+
+        List<TodoItem> todoItems = (List<TodoItem>) todoItemService.getAll();
+
+        if ("xml".equalsIgnoreCase(format)) {
+            String xmlData = todoItemService.exportToXml(todoItems);
+            return ResponseEntity
+                    .ok()
+                    .header("Content-Disposition", "attachment; filename=todo-export-admin.xml")
+                    .contentType(MediaType.APPLICATION_XML)
+                    .body(xmlData);
+        } else {
+            String jsonData = todoItemService.exportToJson(todoItems);
+            return ResponseEntity
+                    .ok()
+                    .header("Content-Disposition", "attachment; filename=todo-export-admin.json")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(jsonData);
+        }
+    }
+}

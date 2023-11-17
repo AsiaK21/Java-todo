@@ -1,7 +1,7 @@
 package com.asia.asia.services.impl;
 
+import com.asia.asia.entities.Priority;
 import com.asia.asia.entities.TodoItem;
-import com.asia.asia.entities.User;
 import com.asia.asia.repositories.TodoItemRepository;
 import com.asia.asia.services.TodoItemService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,17 +10,10 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -39,7 +32,7 @@ public class TodoItemServiceImpl implements TodoItemService {
         return todoItemRepository.findAll();
     }
 
-   // @Override
+    // @Override
     public Iterable<TodoItem> getAllFromUser(Long id) {
         return todoItemRepository.findByUserId(id);
     }
@@ -78,6 +71,7 @@ public class TodoItemServiceImpl implements TodoItemService {
         }
     }
 
-
-
+    public Iterable<TodoItem> findByPriority(Priority high, Long id) {
+        return todoItemRepository.findByPriorityAndUserId(high, id);
+    }
 }

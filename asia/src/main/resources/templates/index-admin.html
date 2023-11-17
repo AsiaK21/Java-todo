@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script th:inline="javascript">
         var formatDate = function(dateString) {
             return new Date(dateString).toLocaleString('pl-PL', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -15,13 +14,13 @@
 <body>
 <div class="container">
     <h1>Aplikacja Todo w Javie (SpringBoot)</h1>
-    <a class="btn btn-outline-success" th:href="@{/auth/logout} " style="color:#FF0000;">
+    <a class="btn btn-outline-success"  th:href="@{/auth/logout}" style="color:#FF0000;">
         Wyloguj się
     </a>
-    <a class="btn btn-outline-success" th:if="${isAdmin}" th:href="@{/admin}">
-        Admin Panel
+    <a class="btn btn-outline-success" th:href="@{/}">
+        Panel Prywatny
     </a>
-    <hr/>
+    <hr />
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -32,52 +31,48 @@
             <th>Od kiedy</th>
             <th>Kiedy skończone</th>
             <th>Do kiedy</th>
+            <th>Twórca</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${todoItems}" th:class="${item.isComplete} ? 'alert alert-success' : 'alert alert-warning'">
             <td>
                 <div class="btn btn-group-sm" role="group">
-                    <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">
+                    <a class="btn btn-info" th:href="@{/admin/edit/{id}(id=${item.id})}">
                         <i class="bi bi-pencil-fill"></i> Edytuj</a>
-                    <a class="btn btn-danger" th:href="@{/delete/{id}(id=${item.id})}">
+                    <a class="btn btn-danger" th:href="@{/admin/delete/{id}(id=${item.id})}">
                         <i class="bi bi-trash-fill"></i> Usuń</a>
                 </div>
             </td>
             <!--            <td th:text="${item.id}"></td>-->
             <td th:text="${item.description}"></td>
             <td>
-                <span th:if="${item.isComplete} == true" th:text="Dokończone"/>
-                <span th:unless="${item.isComplete} == true" th:text="Niedokończone"/>
+                <span th:if="${item.isComplete} == true" th:text="Dokończone" />
+                <span th:unless="${item.isComplete} == true" th:text="Niedokończone" />
             </td>
+            <!--            <td th:text="${item.priorytet}"></td>-->
             <td th:switch="${item.priority}">
                 <span th:case="${T(com.asia.asia.entities.Priority).HIGH}">Wysoki priorytet</span>
                 <span th:case="${T(com.asia.asia.entities.Priority).MEDIUM}">Średni priorytet</span>
                 <span th:case="${T(com.asia.asia.entities.Priority).LOW}">Niski priorytet</span>
                 <span th:case="*">Brak</span>
             </td>
-            <!--            <td th:text="${item.priority}"></td>-->
             <td th:text="${item.formattedCreatedAt}"></td>
             <td th:text="${item.formattedUpdatedAt}"></td>
             <td th:text="${item.formattedTillWhen}"></td>
+            <td th:text="${item.user.firstName} + ' ' + ${item.user.lastName}"></td>
         </tr>
         </tbody>
     </table>
-    <p><a class="btn btn-outline-success" href="/create-todo">
-        <i class="bi bi-plus-square-fill"></i> Stwórz nowe zadanie</a>
-        <a class="btn btn-outline-info" th:href="@{/export?format=xml}">
+    <p>
+        <a class="btn btn-outline-info" th:href="@{/admin/export?format=xml}">
             <i class="bi bi-file-earmark-code"></i> Eksportuj do XML
         </a>
-        <a class="btn btn-outline-warning" th:href="@{/export?format=json}">
+        <a class="btn btn-outline-warning" th:href="@{/admin/export?format=json}">
             <i class="bi bi-file-earmark-text"></i> Eksportuj do JSON
-        </a>
-        <a class="btn btn-outline-warning" th:href="@{/exportHigh}">
-            <i class="bi bi-file-earmark-text"></i> Eksportuj todo wysokiego priorytetu
         </a>
     </p>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>

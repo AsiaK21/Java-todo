@@ -1,5 +1,6 @@
 package com.asia.asia.services;
 
+import com.asia.asia.entities.Role;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JwtService {
@@ -10,4 +11,5 @@ public interface JwtService {
     boolean isTokenValid(String token, UserDetails userDetails);
 
     Long extractLoggedInUserId();
+    Role extractLoggedInUserRole();
 }

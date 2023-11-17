@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
@@ -65,18 +65,30 @@
                placeholder="Powtórz hasło użytkownika"
         >
       </div>
+      <div class="col-6">
+        <label>Role: </label>
+        <select th:field="*{role}" class="form-control" id="role">
+          <option value="USER">User</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
       <div th:if="${passwordMismatch}" class="alert alert-danger">
         <p>Hasła nie są identyczne</p>
       </div>
       <div th:if="${signupError}" class="alert alert-danger">
         <p th:text="${signupError}"></p>
       </div>
+      <div>
       <button type="submit" class="btn btn-outline-success">
         <i class="bi bi-plus-square-fill"></i> Zarejestruj
       </button>
+        <a class="btn btn-outline-success" th:href="@{/auth/signin}">
+          lub zaloguj się
+        </a>
+      </div>
     </div>
   </form>
 </div>
-<script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>

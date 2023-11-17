@@ -16,7 +16,7 @@
         </div>
         <div class="col-6">
             <h2>Edytuj zadanie</h2>
-            <form class="row g-3" action="#" th:action="@{/todo/{id}(id=${todo.id})}" th:object="${todo}" method="POST">
+            <form class="row g-3" action="#" th:action="@{/admin/todo/{id}(id=${todo.id})}" th:object="${todo}" method="POST">
                 <div class="form-group">
                     <div class="col-6">
                         <label for="description">Opis</label>
@@ -48,6 +48,7 @@
                             <option th:value="LOW">Niski priorytet</option>
                         </select>
                     </div>
+
                     <input type="hidden" th:field="*{createdAt}" />
                     <input type="hidden" th:field="*{updatedAt}" />
                     <input type="hidden" th:field="*{tillWhen}" />

@@ -2,31 +2,17 @@ package com.asia.asia.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import com.asia.asia.entities.User;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
@@ -38,11 +24,16 @@ public class TodoItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TodoSequence")
     @JsonProperty("id")
     @JacksonXmlProperty(isAttribute = true)
+    @JsonIgnore
     private Long id;
 
     @JsonProperty("description")
     @JacksonXmlProperty
     private String description;
+
+    @JsonProperty("priority")
+    @JacksonXmlProperty
+    private Priority priority;
 
     @JsonProperty("isComplete")
     @JacksonXmlProperty
@@ -73,40 +64,20 @@ public class TodoItem implements Serializable {
                 id, description, isComplete, createdAt, updatedAt, tillWhen);
     }
 
-    public String exportToJson(List<TodoItem> todoItems) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            return objectMapper.writeValueAsString(todoItems);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public String exportToXml(List<TodoItem> todoItems) {
-        try {
-            XmlMapper xmlMapper = new XmlMapper();
-            return xmlMapper.writeValueAsString(todoItems);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @JsonIgnore
     public String getFormattedCreatedAt() {
         return createdAt != null ? createdAt.format(formatter) : null;
     }
+
     @JsonIgnore
     public String getFormattedUpdatedAt() {
         return updatedAt != null ? updatedAt.format(formatter) : null;
     }
+
     @JsonIgnore
     public String getFormattedTillWhen() {
         return tillWhen != null ? tillWhen.format(formatter) : null;
     }
-
 }

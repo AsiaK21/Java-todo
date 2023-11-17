@@ -20,7 +20,7 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "UserSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UserSequence")
     @JsonIgnore
     private Long id;
 

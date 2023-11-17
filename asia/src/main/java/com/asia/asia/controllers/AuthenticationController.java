@@ -7,12 +7,12 @@ import com.asia.asia.services.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -31,6 +31,7 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public String signup(SignUpRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+        System.out.println(request.getRole());
         if (!request.getPassword().equals(request.getPasswordRepeat())) {
             redirectAttributes.addFlashAttribute("signupError", "Passwords do not match");
             return "redirect:/auth/signup";
@@ -81,4 +82,3 @@ public class AuthenticationController {
         response.addCookie(cookie);
     }
 }
-
