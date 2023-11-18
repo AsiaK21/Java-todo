@@ -1,6 +1,7 @@
 package com.asia.asia.services;
 
 import com.asia.asia.entities.Role;
+import com.asia.asia.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JwtService {
@@ -12,4 +13,6 @@ public interface JwtService {
 
     Long extractLoggedInUserId();
     Role extractLoggedInUserRole();
+    User getLoggedInUser();
+
 }
