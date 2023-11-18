@@ -22,6 +22,17 @@
         Admin Panel
     </a>
     <hr/>
+    <form th:action="@{/todo/priority}" method="post">
+        <label for="priority">Wybierz priorytet:</label>
+        <select name="priority" id="priority">
+            <option value="all">Wszystkie</option>
+            <option value="high">Wysoki</option>
+            <option value="medium">Średni</option>
+            <option value="low">Niski</option>
+            <option value="none">Brak</option>
+        </select>
+        <button type="submit">Filtruj</button>
+    </form>
     <table class="table table-bordered table-striped">
         <thead>
         <tr>

@@ -1,5 +1,7 @@
 package com.asia.asia.controllers;
 
+import com.asia.asia.entities.Priority;
+import com.asia.asia.entities.Role;
 import com.asia.asia.entities.TodoItem;
 import com.asia.asia.entities.User;
 import com.asia.asia.services.JwtService;
@@ -15,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -109,5 +112,23 @@ public class TodoFormController {
         } else {
             return "redirect:/";
         }
+    }
+
+    @PostMapping("/todo/priority")
+    public String showTodoItemsByPriority(@RequestParam(name = "priority") String priority, Model model, Authentication authentication) {
+        Long userId = jwtService.extractLoggedInUserId();
+        Iterable<TodoItem> todoItems;
+
+        if ("high".equalsIgnoreCase(priority) || "medium".equalsIgnoreCase(priority) || "low".equalsIgnoreCase(priority) || ("none".equalsIgnoreCase(priority))) {
+            Priority priorityEnum = Priority.valueOf(priority.toUpperCase());
+            todoItems = todoItemService.findByPriority(priorityEnum, userId);
+        } else {
+            todoItems = todoItemService.getAllFromUser(userId);
+        }
+        Role userRole = jwtService.extractLoggedInUserRole();
+        model.addAttribute("isAdmin", userRole.equals(Role.ADMIN));
+
+        model.addAttribute("todoItems", todoItems);
+        return "index";
     }
 }
