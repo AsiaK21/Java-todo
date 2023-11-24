@@ -1,0 +1,31 @@
+version: '3.8'
+name: asia-java
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  asia-db:
+    container_name: asia-mysql-db
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: java
+      MYSQL_USER: java
+      MYSQL_PASSWORD: password
+    networks:
+      - backend
+
+  asia-application:
+    container_name: asia-application
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: asia-application:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    links:
+      - "asia-db:database"
